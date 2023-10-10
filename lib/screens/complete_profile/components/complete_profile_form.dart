@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:get/get_instance/src/extension_instance.dart';
+import 'package:get/state_manager.dart';
+import 'package:shop_app/app_controller.dart';
 import 'package:shop_app/components/custom_surfix_icon.dart';
 import 'package:shop_app/components/default_button.dart';
 import 'package:shop_app/components/form_error.dart';
-import 'package:shop_app/screens/otp/otp_screen.dart';
+import 'package:shop_app/firebase/firestore_service.dart';
 
 import '../../../constants.dart';
 import '../../../size_config.dart';
@@ -36,6 +39,7 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
 
   @override
   Widget build(BuildContext context) {
+    var app = Get.find<AppController>();
     return Form(
       key: _formKey,
       child: Column(
@@ -53,10 +57,22 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
             text: "continue",
             press: () {
               if (_formKey.currentState!.validate()) {
-                Navigator.pushNamed(context, OtpScreen.routeName);
+                var u = app.user.value;
+                if (u != null) {
+                  print(firstName);
+                  print(lastName);
+                  FirestoreService.updateUserDocument(u.copyWith(
+                    firstName: firstName,
+                    lastName: lastName,
+                    address: address,
+                    phoneNumber: phoneNumber,
+                    fullName: "$firstName $lastName",
+                    onBoarded: true,
+                  ));
+                }
               }
             },
-          ),
+          )
         ],
       ),
     );
@@ -64,8 +80,10 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
 
   TextFormField buildAddressFormField() {
     return TextFormField(
-      onSaved: (newValue) => address = newValue,
       onChanged: (value) {
+        setState(() {
+          address = value;
+        });
         if (value.isNotEmpty) {
           removeError(error: kAddressNullError);
         }
@@ -93,8 +111,13 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
   TextFormField buildPhoneNumberFormField() {
     return TextFormField(
       keyboardType: TextInputType.phone,
-      onSaved: (newValue) => phoneNumber = newValue,
+      onSaved: (newValue) => setState(() {
+        phoneNumber = newValue;
+      }),
       onChanged: (value) {
+        setState(() {
+          phoneNumber = value;
+        });
         if (value.isNotEmpty) {
           removeError(error: kPhoneNumberNullError);
         }
@@ -120,7 +143,14 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
 
   TextFormField buildLastNameFormField() {
     return TextFormField(
-      onSaved: (newValue) => lastName = newValue,
+      onSaved: (newValue) => setState(() {
+        lastName = newValue;
+      }),
+      onChanged: (value) {
+        setState(() {
+          lastName = value;
+        });
+      },
       decoration: InputDecoration(
         labelText: "Last Name",
         hintText: "Enter your last name",
@@ -134,8 +164,13 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
 
   TextFormField buildFirstNameFormField() {
     return TextFormField(
-      onSaved: (newValue) => firstName = newValue,
+      onSaved: (newValue) => setState(() {
+        firstName = newValue;
+      }),
       onChanged: (value) {
+        setState(() {
+          firstName = value;
+        });
         if (value.isNotEmpty) {
           removeError(error: kNamelNullError);
         }
