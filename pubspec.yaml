@@ -30,6 +30,9 @@ dependencies:
   # if you are using latest flutter please update your flutter_svg package to ^0.18.*
   flutter_svg: ^2.0.7 # help us to use SVG in our app
   provider: ^6.0.5 # for State management
+  firebase_core: ^2.17.0
+  firebase_auth: ^4.10.1
+  cloud_firestore: ^4.9.3
 
 dev_dependencies:
   flutter_test:
