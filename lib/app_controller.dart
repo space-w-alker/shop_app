@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:get/route_manager.dart';
 import 'package:get/state_manager.dart';
 import 'package:shop_app/firebase/auth_service.dart';
 import 'package:shop_app/firebase/firestore_service.dart';
@@ -8,6 +9,7 @@ import 'package:shop_app/models/User.dart';
 import 'package:shop_app/screens/complete_profile/complete_profile_screen.dart';
 import 'package:shop_app/screens/home/home_screen.dart';
 import 'package:shop_app/screens/sign_in/sign_in_screen.dart';
+import 'package:shop_app/screens/splash/splash_screen.dart';
 
 class AppController {
   final RxBool isLoggedIn = RxBool(false);
@@ -23,9 +25,9 @@ class AppController {
         isLoggedIn.value = false;
         user.value = null;
         subscription?.cancel();
-        print("Removing...");
         Navigator.pushNamedAndRemoveUntil(
-            context, SignInScreen.routeName, (_) => false);
+            context, SignInScreen.routeName,
+            (_) => _.settings.name == SplashScreen.routeName);
       } else {
         isLoggedIn.value = true;
         FirestoreService.tryCreateNewUserDocument(u.uid, u.email ?? '');
