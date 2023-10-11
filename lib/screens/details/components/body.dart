@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shop_app/components/default_button.dart';
-import 'package:shop_app/models/Product.dart';
+import 'package:shop_app/models/FoodProduct.dart';
 import 'package:shop_app/size_config.dart';
 
 import 'color_dots.dart';
@@ -9,15 +9,14 @@ import 'top_rounded_container.dart';
 import 'product_images.dart';
 
 class Body extends StatelessWidget {
-  final Product product;
+  final FoodProduct product;
 
   const Body({Key? key, required this.product}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
+    return Column(
       children: [
-        ProductImages(product: product),
         TopRoundedContainer(
           color: Colors.white,
           child: Column(
@@ -30,7 +29,6 @@ class Body extends StatelessWidget {
                 color: Color(0xFFF6F7F9),
                 child: Column(
                   children: [
-                    ColorDots(product: product),
                     TopRoundedContainer(
                       color: Colors.white,
                       child: Padding(
