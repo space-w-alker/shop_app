@@ -22,16 +22,22 @@ class AppController {
     if (isInitialized) return;
     isInitialized = true;
     StreamSubscription<User?>? subscription;
+    StreamSubscription<List<Cart>>? cartSubscription;
     AuthService.getAuthState().listen((u) {
       if (u == null) {
         isLoggedIn.value = false;
         user.value = null;
         subscription?.cancel();
+        cartSubscription?.cancel();
         Navigator.pushNamedAndRemoveUntil(context, SignInScreen.routeName,
-            (_) => _.settings.name == SplashScreen.routeName);
+          (_) => _.settings.name == SplashScreen.routeName,
+        );
       } else {
         isLoggedIn.value = true;
         FirestoreService.tryCreateNewUserDocument(u.uid, u.email ?? '');
+        cartSubscription = FirestoreService.getUserCart(u.uid).listen((event) {
+          cart.value = event;
+        });
         subscription =
             FirestoreService.getUserDocumentSnap(u.uid).listen((_user) {
           if (_user?.onBoarded != null && _user?.onBoarded == true) {

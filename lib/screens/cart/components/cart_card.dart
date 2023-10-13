@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:shop_app/models/Cart.dart';
+import 'package:shop_app/models/FoodProduct.dart';
 
 import '../../../constants.dart';
 
 class CartCard extends StatelessWidget {
   const CartCard({
     Key? key,
-    required this.cart,
+    required this.numOfItems,
+    required this.product,
   }) : super(key: key);
 
-  final Cart cart;
+  final int numOfItems;
+  final FoodProduct product;
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +28,7 @@ class CartCard extends StatelessWidget {
                 borderRadius: BorderRadius.circular(15),
               ),
               child: Image.network(
-                cart.product.images[0],
+                product.images[0],
                 fit: BoxFit.cover,
               ),
             ),
@@ -37,19 +39,19 @@ class CartCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              cart.product.name ?? '[NULL]',
+              product.name ?? '[NULL]',
               style: TextStyle(color: Colors.black, fontSize: 16),
               maxLines: 2,
             ),
             SizedBox(height: 10),
             Text.rich(
               TextSpan(
-                text: "\$${cart.product.price}",
+                text: "\$${product.price}",
                 style: TextStyle(
                     fontWeight: FontWeight.w600, color: kPrimaryColor),
                 children: [
                   TextSpan(
-                      text: " x${cart.numOfItem}",
+                      text: " x${numOfItems}",
                       style: Theme.of(context).textTheme.bodyText1),
                 ],
               ),

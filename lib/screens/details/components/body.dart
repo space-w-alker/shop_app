@@ -3,6 +3,7 @@ import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:get/state_manager.dart';
 import 'package:shop_app/app_controller.dart';
 import 'package:shop_app/components/default_button.dart';
+import 'package:shop_app/firebase/firestore_service.dart';
 import 'package:shop_app/models/Cart.dart';
 import 'package:shop_app/models/FoodProduct.dart';
 import 'package:shop_app/size_config.dart';
@@ -37,30 +38,24 @@ class Body extends StatelessWidget {
                     TopRoundedContainer(
                       color: Colors.white,
                       child: Padding(
-                        padding: EdgeInsets.only(
-                          left: SizeConfig.screenWidth * 0.15,
-                          right: SizeConfig.screenWidth * 0.15,
-                          bottom: getProportionateScreenWidth(40),
-                          top: getProportionateScreenWidth(15),
-                        ),
+                          padding: EdgeInsets.only(
+                            left: SizeConfig.screenWidth * 0.15,
+                            right: SizeConfig.screenWidth * 0.15,
+                            bottom: getProportionateScreenWidth(40),
+                            top: getProportionateScreenWidth(15),
+                          ),
                           child: DefaultButton(
                             text: "Add To Cart",
-                            press: () {
-                              for (var i = 0; i < app.cart.length; i++) {
-                                final cartItem = app.cart[i];
-                                if (cartItem.product.id == product.id) {
-                                  app.cart[i] = Cart(
-                                      product: product,
-                                      numOfItem: cartItem.numOfItem + 1);
-                                  app.cart.refresh();
-                                  return;
-                                }
+                            press: () async {
+                              if (app.user.value != null &&
+                                  product.id != null) {
+                                await FirestoreService.addToCart(
+                                  app.user.value!,
+                                  product.id!,
+                                );
                               }
-                              app.cart
-                                  .add(Cart(product: product, numOfItem: 1));
                             },
-                          )
-                      ),
+                          )),
                     ),
                   ],
                 ),

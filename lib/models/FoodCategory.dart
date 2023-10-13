@@ -75,3 +75,14 @@ class FoodCategory {
         "updatedAt": updatedAt?.toIso8601String(),
       };
 }
+
+const gen = {
+  "id": "",
+  "name": "",
+  "description": "",
+  "image": "",
+  "itemsCount": 0,
+  "deleted": false,
+  "createdAt": "2023-10-11T13:57:48Z",
+  "updatedAt": "2023-10-11T13:57:48Z"
+};

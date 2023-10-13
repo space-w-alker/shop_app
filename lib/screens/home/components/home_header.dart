@@ -29,7 +29,7 @@ class HomeHeader extends StatelessWidget {
               press: () => Navigator.pushNamed(context, CartScreen.routeName),
               numOfItem: app.cart.isEmpty
                   ? 0
-                  : app.cart.map((element) => element.numOfItem).reduce(
+                  : app.cart.map((element) => element.numOfItems ?? 0).reduce(
                       (previousValue, element) => previousValue + element),
             );
           }),

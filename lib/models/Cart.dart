@@ -1,13 +1,44 @@
-import 'package:shop_app/models/FoodProduct.dart';
+// To parse this JSON data, do
+//
+//     final cart = cartFromJson(jsonString);
 
+import 'dart:convert';
+
+Cart cartFromJson(String str) => Cart.fromJson(json.decode(str));
+
+String cartToJson(Cart data) => json.encode(data.toJson());
 
 class Cart {
-  final FoodProduct product;
-  final int numOfItem;
+  String? id;
+  String? productId;
+  int? numOfItems;
 
-  Cart({required this.product, required this.numOfItem});
+  Cart({
+    this.id,
+    this.productId,
+    this.numOfItems,
+  });
+
+  Cart copyWith({
+    String? id,
+    String? productId,
+    int? numOfItems,
+  }) =>
+      Cart(
+        id: id ?? this.id,
+        productId: productId ?? this.productId,
+        numOfItems: numOfItems ?? this.numOfItems,
+      );
+
+  factory Cart.fromJson(Map<String, dynamic> json) => Cart(
+        id: json["id"],
+        productId: json["productId"],
+        numOfItems: json["numOfItems"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "productId": productId,
+        "numOfItems": numOfItems,
+      };
 }
-
-// Demo data for our cart
-
-List<Cart> demoCarts = [];
