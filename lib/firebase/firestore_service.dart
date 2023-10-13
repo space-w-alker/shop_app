@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:shop_app/models/FoodCategory.dart';
 import 'package:shop_app/models/FoodProduct.dart';
 import 'package:shop_app/models/User.dart';
 
@@ -34,6 +35,13 @@ class FirestoreService {
     return FirebaseFirestore.instance.collection("products").snapshots().map(
           (event) =>
               event.docs.map((e) => FoodProduct.fromJson(e.data())).toList(),
+        );
+  }
+
+  static Stream<List<FoodCategory>> getFoodCategorySnap() {
+    return FirebaseFirestore.instance.collection("categories").snapshots().map(
+          (event) =>
+              event.docs.map((e) => FoodCategory.fromJson(e.data())).toList(),
         );
   }
 

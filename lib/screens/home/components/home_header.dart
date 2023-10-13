@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get_instance/src/extension_instance.dart';
+import 'package:get/state_manager.dart';
+import 'package:shop_app/app_controller.dart';
 import 'package:shop_app/screens/cart/cart_screen.dart';
 
 import '../../../size_config.dart';
@@ -12,6 +15,7 @@ class HomeHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final app = Get.find<AppController>();
     return Padding(
       padding:
           EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(20)),
@@ -19,13 +23,18 @@ class HomeHeader extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           SearchField(),
-          IconBtnWithCounter(
-            svgSrc: "assets/icons/Cart Icon.svg",
-            press: () => Navigator.pushNamed(context, CartScreen.routeName),
-          ),
+          Obx(() {
+            return IconBtnWithCounter(
+              svgSrc: "assets/icons/Cart Icon.svg",
+              press: () => Navigator.pushNamed(context, CartScreen.routeName),
+              numOfItem: app.cart.isEmpty
+                  ? 0
+                  : app.cart.map((element) => element.numOfItem).reduce(
+                      (previousValue, element) => previousValue + element),
+            );
+          }),
           IconBtnWithCounter(
             svgSrc: "assets/icons/Bell.svg",
-            numOfitem: 3,
             press: () {},
           ),
         ],

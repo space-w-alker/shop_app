@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get_instance/src/extension_instance.dart';
+import 'package:get/state_manager.dart';
+import 'package:shop_app/app_controller.dart';
 import 'package:shop_app/models/Cart.dart';
 
 import 'components/body.dart';
@@ -16,6 +19,7 @@ class CartScreen extends StatelessWidget {
   }
 
   AppBar buildAppBar(BuildContext context) {
+    final app = Get.find<AppController>();
     return AppBar(
       title: Column(
         children: [
@@ -23,10 +27,12 @@ class CartScreen extends StatelessWidget {
             "Your Cart",
             style: TextStyle(color: Colors.black),
           ),
-          Text(
-            "${demoCarts.length} items",
-            style: Theme.of(context).textTheme.caption,
-          ),
+          Obx(() {
+            return Text(
+              "${app.cart.length} items",
+              style: Theme.of(context).textTheme.caption,
+            );
+          }),
         ],
       ),
     );

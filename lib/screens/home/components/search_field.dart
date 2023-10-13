@@ -20,8 +20,7 @@ class SearchField extends StatelessWidget {
         onChanged: (value) => print(value),
         decoration: InputDecoration(
             contentPadding: EdgeInsets.symmetric(
-                horizontal: getProportionateScreenWidth(20),
-                vertical: getProportionateScreenWidth(9)),
+                horizontal: (20), vertical: (9)),
             border: InputBorder.none,
             focusedBorder: InputBorder.none,
             enabledBorder: InputBorder.none,

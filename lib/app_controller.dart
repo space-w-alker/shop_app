@@ -5,6 +5,7 @@ import 'package:get/route_manager.dart';
 import 'package:get/state_manager.dart';
 import 'package:shop_app/firebase/auth_service.dart';
 import 'package:shop_app/firebase/firestore_service.dart';
+import 'package:shop_app/models/Cart.dart';
 import 'package:shop_app/models/User.dart';
 import 'package:shop_app/screens/complete_profile/complete_profile_screen.dart';
 import 'package:shop_app/screens/home/home_screen.dart';
@@ -14,6 +15,7 @@ import 'package:shop_app/screens/splash/splash_screen.dart';
 class AppController {
   final RxBool isLoggedIn = RxBool(false);
   final Rx<User?> user = Rx(null);
+  final RxList<Cart> cart = RxList([]);
   bool isInitialized = false;
 
   void initialize(BuildContext context) {
@@ -25,8 +27,7 @@ class AppController {
         isLoggedIn.value = false;
         user.value = null;
         subscription?.cancel();
-        Navigator.pushNamedAndRemoveUntil(
-            context, SignInScreen.routeName,
+        Navigator.pushNamedAndRemoveUntil(context, SignInScreen.routeName,
             (_) => _.settings.name == SplashScreen.routeName);
       } else {
         isLoggedIn.value = true;

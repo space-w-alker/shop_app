@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:shop_app/firebase/firestore_service.dart';
+import 'package:shop_app/models/FoodCategory.dart';
 
-import '../../../size_config.dart';
 import 'section_title.dart';
 
 class SpecialOffers extends StatelessWidget {
@@ -14,31 +15,39 @@ class SpecialOffers extends StatelessWidget {
       children: [
         Padding(
           padding:
-              EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(20)),
+              EdgeInsets.symmetric(horizontal: (20)),
           child: SectionTitle(
             title: "Special for you",
             press: () {},
           ),
         ),
-        SizedBox(height: getProportionateScreenWidth(20)),
+        SizedBox(height: (20)),
         SingleChildScrollView(
           scrollDirection: Axis.horizontal,
-          child: Row(
-            children: [
-              SpecialOfferCard(
-                image: "assets/images/Image Banner 2.png",
-                category: "Smartphone",
-                numOfBrands: 18,
-                press: () {},
-              ),
-              SpecialOfferCard(
-                image: "assets/images/Image Banner 3.png",
-                category: "Fashion",
-                numOfBrands: 24,
-                press: () {},
-              ),
-              SizedBox(width: getProportionateScreenWidth(20)),
-            ],
+          child: StreamBuilder<List<FoodCategory>>(
+            initialData: [],
+            stream: FirestoreService.getFoodCategorySnap(),
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                return Row(
+                  children: snapshot.data
+                          ?.map((e) => SpecialOfferCard(
+                              category: e.name ?? '[NULL]',
+                              image: e.image ?? '',
+                              numOfBrands: e.itemsCount ?? 0,
+                              press: () {}))
+                          .toList() ??
+                      [],
+                );
+              }
+              if (snapshot.hasError) {
+                return Text(
+                  snapshot.error.toString(),
+                  style: TextStyle(color: Colors.red),
+                );
+              }
+              return Text("Loading...");
+            },
           ),
         ),
       ],
@@ -62,19 +71,21 @@ class SpecialOfferCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(left: getProportionateScreenWidth(20)),
+      padding: EdgeInsets.only(left: (20)),
       child: GestureDetector(
         onTap: press,
         child: SizedBox(
-          width: getProportionateScreenWidth(242),
-          height: getProportionateScreenWidth(100),
+          width: (242),
+          height: (100),
           child: ClipRRect(
             borderRadius: BorderRadius.circular(20),
             child: Stack(
               children: [
-                Image.asset(
-                  image,
-                  fit: BoxFit.cover,
+                Positioned.fill(
+                  child: Image.network(
+                    image,
+                    fit: BoxFit.cover,
+                  ),
                 ),
                 Container(
                   decoration: BoxDecoration(
@@ -90,8 +101,8 @@ class SpecialOfferCard extends StatelessWidget {
                 ),
                 Padding(
                   padding: EdgeInsets.symmetric(
-                    horizontal: getProportionateScreenWidth(15.0),
-                    vertical: getProportionateScreenWidth(10),
+                    horizontal: (15.0),
+                    vertical: (10),
                   ),
                   child: Text.rich(
                     TextSpan(
@@ -100,7 +111,7 @@ class SpecialOfferCard extends StatelessWidget {
                         TextSpan(
                           text: "$category\n",
                           style: TextStyle(
-                            fontSize: getProportionateScreenWidth(18),
+                            fontSize: (18),
                             fontWeight: FontWeight.bold,
                           ),
                         ),

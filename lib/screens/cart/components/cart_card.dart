@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:shop_app/models/Cart.dart';
 
 import '../../../constants.dart';
-import '../../../size_config.dart';
 
 class CartCard extends StatelessWidget {
   const CartCard({
@@ -21,12 +20,15 @@ class CartCard extends StatelessWidget {
           child: AspectRatio(
             aspectRatio: 0.88,
             child: Container(
-              padding: EdgeInsets.all(getProportionateScreenWidth(10)),
+              clipBehavior: Clip.antiAlias,
               decoration: BoxDecoration(
                 color: Color(0xFFF5F6F9),
                 borderRadius: BorderRadius.circular(15),
               ),
-              child: Image.asset(cart.product.images[0]),
+              child: Image.network(
+                cart.product.images[0],
+                fit: BoxFit.cover,
+              ),
             ),
           ),
         ),
@@ -35,7 +37,7 @@ class CartCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              cart.product.title,
+              cart.product.name ?? '[NULL]',
               style: TextStyle(color: Colors.black, fontSize: 16),
               maxLines: 2,
             ),
