@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get_instance/src/extension_instance.dart';
+import 'package:get/state_manager.dart';
+import 'package:shop_app/app_controller.dart';
 import 'package:shop_app/models/FoodProduct.dart';
 
 import '../../../constants.dart';
 import '../../../size_config.dart';
-
-const isFavorite = false;
 
 class ProductDescription extends StatelessWidget {
   const ProductDescription({
@@ -19,6 +20,7 @@ class ProductDescription extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final app = Get.find<AppController>();
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -30,27 +32,28 @@ class ProductDescription extends StatelessWidget {
             style: Theme.of(context).textTheme.headline6,
           ),
         ),
-        Align(
-          alignment: Alignment.centerRight,
-          child: Container(
-            padding: EdgeInsets.all(getProportionateScreenWidth(15)),
-            width: getProportionateScreenWidth(64),
-            decoration: BoxDecoration(
-              color:
-                  isFavorite ? Color(0xFFFFE6E6) : Color(0xFFF5F6F9),
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(20),
-                bottomLeft: Radius.circular(20),
+        Obx(() {
+          final isFavorite = app.favorites.contains(product.id);
+          return Align(
+            alignment: Alignment.centerRight,
+            child: Container(
+              padding: EdgeInsets.all(getProportionateScreenWidth(15)),
+              width: getProportionateScreenWidth(64),
+              decoration: BoxDecoration(
+                color: isFavorite ? Color(0xFFFFE6E6) : Color(0xFFF5F6F9),
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(20),
+                  bottomLeft: Radius.circular(20),
+                ),
+              ),
+              child: SvgPicture.asset(
+                "assets/icons/Heart Icon_2.svg",
+                color: isFavorite ? Color(0xFFFF4848) : Color(0xFFDBDEE4),
+                height: getProportionateScreenWidth(16),
               ),
             ),
-            child: SvgPicture.asset(
-              "assets/icons/Heart Icon_2.svg",
-              color:
-                  isFavorite ? Color(0xFFFF4848) : Color(0xFFDBDEE4),
-              height: getProportionateScreenWidth(16),
-            ),
-          ),
-        ),
+          );
+        }),
         Padding(
           padding: EdgeInsets.only(
             left: getProportionateScreenWidth(20),

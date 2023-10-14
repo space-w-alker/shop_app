@@ -36,9 +36,8 @@ class _BodyState extends State<Body> {
                     key: Key(app.cart[index].productId ?? ''),
                     direction: DismissDirection.endToStart,
                     onDismissed: (direction) {
-                      setState(() {
-                        app.cart.removeAt(index);
-                      });
+                      FirestoreService.removeFromCart(
+                          app.user.value!, app.cart[index].productId ?? '');
                     },
                     background: Container(
                       padding: EdgeInsets.symmetric(horizontal: 20),

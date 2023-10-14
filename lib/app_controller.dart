@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:get/route_manager.dart';
 import 'package:get/state_manager.dart';
 import 'package:shop_app/firebase/auth_service.dart';
 import 'package:shop_app/firebase/firestore_service.dart';
@@ -16,6 +15,7 @@ class AppController {
   final RxBool isLoggedIn = RxBool(false);
   final Rx<User?> user = Rx(null);
   final RxList<Cart> cart = RxList([]);
+  final RxList<String> favorites = RxList([]);
   bool isInitialized = false;
 
   void initialize(BuildContext context) {
@@ -23,13 +23,17 @@ class AppController {
     isInitialized = true;
     StreamSubscription<User?>? subscription;
     StreamSubscription<List<Cart>>? cartSubscription;
+    StreamSubscription<List<String>>? favoritesSubscription;
     AuthService.getAuthState().listen((u) {
       if (u == null) {
         isLoggedIn.value = false;
         user.value = null;
         subscription?.cancel();
         cartSubscription?.cancel();
-        Navigator.pushNamedAndRemoveUntil(context, SignInScreen.routeName,
+        favoritesSubscription?.cancel();
+        Navigator.pushNamedAndRemoveUntil(
+          context,
+          SignInScreen.routeName,
           (_) => _.settings.name == SplashScreen.routeName,
         );
       } else {
@@ -37,6 +41,10 @@ class AppController {
         FirestoreService.tryCreateNewUserDocument(u.uid, u.email ?? '');
         cartSubscription = FirestoreService.getUserCart(u.uid).listen((event) {
           cart.value = event;
+        });
+        favoritesSubscription =
+            FirestoreService.getFavoritesSnap(u.uid).listen((event) {
+          favorites.value = event;
         });
         subscription =
             FirestoreService.getUserDocumentSnap(u.uid).listen((_user) {

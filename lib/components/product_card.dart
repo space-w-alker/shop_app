@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get_instance/src/extension_instance.dart';
+import 'package:get/state_manager.dart';
+import 'package:shop_app/app_controller.dart';
+import 'package:shop_app/firebase/firestore_service.dart';
 import 'package:shop_app/models/FoodProduct.dart';
 import 'package:shop_app/models/Product.dart';
 import 'package:shop_app/screens/details/details_screen.dart';
 
 import '../constants.dart';
 import '../size_config.dart';
-
-const isFavorite = false;
 
 class ProductCard extends StatelessWidget {
   const ProductCard({
@@ -22,6 +24,7 @@ class ProductCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final app = Get.find<AppController>();
     return Padding(
       padding: EdgeInsets.only(left: getProportionateScreenWidth(20)),
       child: SizedBox(
@@ -71,25 +74,31 @@ class ProductCard extends StatelessWidget {
                   ),
                   InkWell(
                     borderRadius: BorderRadius.circular(50),
-                    onTap: () {},
-                    child: Container(
-                      padding: EdgeInsets.all(getProportionateScreenWidth(8)),
-                      height: getProportionateScreenWidth(28),
-                      width: getProportionateScreenWidth(28),
-                      decoration: BoxDecoration(
-                        color: isFavorite
-                            ? kPrimaryColor.withOpacity(0.15)
-                            : kSecondaryColor.withOpacity(0.1),
-                        shape: BoxShape.circle,
-                      ),
-                      child: SvgPicture.asset(
-                        "assets/icons/Heart Icon_2.svg",
-                        color:
-                            isFavorite
-                            ? Color(0xFFFF4848)
-                            : Color(0xFFDBDEE4),
-                      ),
-                    ),
+                    onTap: () {
+                      FirestoreService.addToFavorites(
+                          app.user.value!, product.id!,
+                          remove: app.favorites.contains(product.id!));
+                    },
+                    child: Obx(() {
+                      var isFavorite = app.favorites.contains(product.id);
+                      return Container(
+                        padding: EdgeInsets.all(getProportionateScreenWidth(8)),
+                        height: getProportionateScreenWidth(28),
+                        width: getProportionateScreenWidth(28),
+                        decoration: BoxDecoration(
+                          color: isFavorite
+                              ? kPrimaryColor.withOpacity(0.15)
+                              : kSecondaryColor.withOpacity(0.1),
+                          shape: BoxShape.circle,
+                        ),
+                        child: SvgPicture.asset(
+                          "assets/icons/Heart Icon_2.svg",
+                          color: isFavorite
+                              ? Color(0xFFFF4848)
+                              : Color(0xFFDBDEE4),
+                        ),
+                      );
+                    }),
                   ),
                 ],
               )

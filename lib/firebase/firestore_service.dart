@@ -22,6 +22,25 @@ class FirestoreService {
         .update(user.toJson());
   }
 
+  static Future addToFavorites(User user, String productId,
+      {bool remove = false}) async {
+    var doc =
+        FirebaseFirestore.instance.doc("users/${user.id}/favorites/$productId");
+    if (remove == true) {
+      await doc.delete();
+    } else {
+      await doc.set(
+        {"productId": productId, "createdAt": FieldValue.serverTimestamp()},
+      );
+    }
+  }
+
+  static Future removeFromFavorites(User user, String productId) async {
+    await FirebaseFirestore.instance
+        .doc("users/${user.id}/favorites/$productId")
+        .delete();
+  }
+
   static Stream<User?> getUserDocumentSnap(String uid) {
     return FirebaseFirestore.instance
         .doc("users/$uid")
@@ -30,6 +49,14 @@ class FirestoreService {
       var data = event.data();
       return data != null ? User.fromJson(data) : null;
     });
+  }
+
+  static Stream<List<String>> getFavoritesSnap(String uid) {
+    return FirebaseFirestore.instance
+        .collection("users/$uid/favorites")
+        .snapshots()
+        .map((event) =>
+            event.docs.map((e) => e.data()["productId"] as String).toList());
   }
 
   static Stream<FoodProduct> getOneProductSnap(String productId) {
@@ -67,6 +94,12 @@ class FirestoreService {
         .doc("users/${user.id}/cart/${productId}")
         .set({"productId": productId, "numOfItems": FieldValue.increment(1)},
             SetOptions(merge: true));
+  }
+
+  static Future removeFromCart(User user, String productId) async {
+    return FirebaseFirestore.instance
+        .doc("users/${user.id}/cart/${productId}")
+        .delete();
   }
 
   static timeStampsToDateTime(Map<String, dynamic> json) {

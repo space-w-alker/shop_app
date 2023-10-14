@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shop_app/components/product_card.dart';
 import 'package:shop_app/firebase/firestore_service.dart';
-import 'package:shop_app/models/Product.dart';
 
 import '../../../size_config.dart';
 import 'section_title.dart';
