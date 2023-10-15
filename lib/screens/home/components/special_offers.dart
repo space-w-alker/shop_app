@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:shop_app/firebase/firestore_service.dart';
 import 'package:shop_app/models/FoodCategory.dart';
 
-import 'section_title.dart';
 
 class SpecialOffers extends StatelessWidget {
   const SpecialOffers({
@@ -11,46 +10,33 @@ class SpecialOffers extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Padding(
-          padding:
-              EdgeInsets.symmetric(horizontal: (20)),
-          child: SectionTitle(
-            title: "Special for you",
-            press: () {},
-          ),
-        ),
-        SizedBox(height: (20)),
-        SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: StreamBuilder<List<FoodCategory>>(
-            initialData: [],
-            stream: FirestoreService.getFoodCategorySnap(),
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                return Row(
-                  children: snapshot.data
-                          ?.map((e) => SpecialOfferCard(
-                              category: e.name ?? '[NULL]',
-                              image: e.image ?? '',
-                              numOfBrands: e.itemsCount ?? 0,
-                              press: () {}))
-                          .toList() ??
-                      [],
-                );
-              }
-              if (snapshot.hasError) {
-                return Text(
-                  snapshot.error.toString(),
-                  style: TextStyle(color: Colors.red),
-                );
-              }
-              return Text("Loading...");
-            },
-          ),
-        ),
-      ],
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: StreamBuilder<List<FoodCategory>>(
+        initialData: [],
+        stream: FirestoreService.getFoodCategorySnap(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return Row(
+              children: snapshot.data
+                      ?.map((e) => SpecialOfferCard(
+                          category: e.name ?? '[NULL]',
+                          image: e.image ?? '',
+                          numOfBrands: e.itemsCount ?? 0,
+                          press: () {}))
+                      .toList() ??
+                  [],
+            );
+          }
+          if (snapshot.hasError) {
+            return Text(
+              snapshot.error.toString(),
+              style: TextStyle(color: Colors.red),
+            );
+          }
+          return Text("Loading...");
+        },
+      ),
     );
   }
 }
@@ -71,7 +57,7 @@ class SpecialOfferCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(left: (20)),
+      padding: EdgeInsets.symmetric(horizontal: (15)),
       child: GestureDetector(
         onTap: press,
         child: SizedBox(

@@ -19,27 +19,29 @@ class DetailsScreen extends StatelessWidget {
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
-            leading: SizedBox(
-              height: getProportionateScreenWidth(20),
-              width: getProportionateScreenWidth(20),
-              child: TextButton(
-                style: TextButton.styleFrom(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(60),
+            leading: Center(
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 5),
+                child: TextButton(
+                  style: TextButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(60),
+                    ),
+                    primary: kPrimaryColor,
+                    backgroundColor: Colors.white,
+                    padding: EdgeInsets.zero,
                   ),
-                  primary: kPrimaryColor,
-                  backgroundColor: Colors.white,
-                  padding: EdgeInsets.zero,
-                ),
-                onPressed: () => Navigator.pop(context),
-                child: SvgPicture.asset(
-                  "assets/icons/Back ICon.svg",
-                  height: 15,
+                  onPressed: () => Navigator.pop(context),
+                  child: SvgPicture.asset(
+                    "assets/icons/Back ICon.svg",
+                    height: 15,
+                  ),
                 ),
               ),
             ),
             actions: [
               Container(
+                margin: EdgeInsets.symmetric(horizontal: 5),
                 padding:
                     const EdgeInsets.symmetric(horizontal: 14, vertical: 5),
                 decoration: BoxDecoration(

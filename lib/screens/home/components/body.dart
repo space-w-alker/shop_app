@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:shop_app/screens/home/components/section_title.dart';
 
-import '../../../size_config.dart';
 import 'categories.dart';
 import 'discount_banner.dart';
 import 'home_header.dart';
@@ -11,20 +11,36 @@ class Body extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            SizedBox(height: getProportionateScreenHeight(20)),
-            HomeHeader(),
-            SizedBox(height: getProportionateScreenWidth(10)),
-            DiscountBanner(),
-            Categories(),
-            SpecialOffers(),
-            SizedBox(height: getProportionateScreenWidth(30)),
-            PopularProducts(),
-            SizedBox(height: getProportionateScreenWidth(30)),
-          ],
-        ),
+      child: CustomScrollView(
+        slivers: [
+          SliverToBoxAdapter(child: SizedBox(height: (20))),
+          SliverToBoxAdapter(child: HomeHeader()),
+          SliverToBoxAdapter(child: SizedBox(height: (10))),
+          SliverToBoxAdapter(child: DiscountBanner()),
+          SliverToBoxAdapter(child: Categories()),
+          SliverToBoxAdapter(
+            child: Container(
+              margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+              child: SectionTitle(
+                title: "Featured Categories",
+                press: () {},
+              ),
+            ),
+          ),
+          SliverToBoxAdapter(child: SpecialOffers()),
+          SliverToBoxAdapter(child: SizedBox(height: (30))),
+          SliverToBoxAdapter(
+            child: Container(
+              margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+              child: SectionTitle(
+                title: "Popular Products",
+                press: () {},
+              ),
+            ),
+          ),
+          SliverToBoxAdapter(child: PopularProducts()),
+          SliverToBoxAdapter(child: SizedBox(height: (30))),
+        ],
       ),
     );
   }

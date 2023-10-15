@@ -13,14 +13,7 @@ class PopularProducts extends StatefulWidget {
 class _PopularProductsState extends State<PopularProducts> {
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Padding(
-          padding:
-              EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(20)),
-          child: SectionTitle(title: "Popular Products", press: () {}),
-        ),
-        SizedBox(height: getProportionateScreenWidth(20)),
+    return
         SingleChildScrollView(
           scrollDirection: Axis.horizontal,
           child: StreamBuilder(
@@ -41,9 +34,7 @@ class _PopularProductsState extends State<PopularProducts> {
               }
               return Text("Loading...");
             },
-          ),
-        )
-      ],
+      ),
     );
   }
 }

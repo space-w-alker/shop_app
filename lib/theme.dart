@@ -7,6 +7,8 @@ class AppTheme {
     return ThemeData(
       scaffoldBackgroundColor: Colors.white,
       fontFamily: "Muli",
+      navigationBarTheme: NavigationBarThemeData(elevation: 5),
+      useMaterial3: true,
       appBarTheme: AppBarTheme(
           color: Colors.white,
           elevation: 0,

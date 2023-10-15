@@ -8,6 +8,7 @@ import 'package:shop_app/models/Cart.dart';
 import 'package:shop_app/models/User.dart';
 import 'package:shop_app/screens/complete_profile/complete_profile_screen.dart';
 import 'package:shop_app/screens/home/home_screen.dart';
+import 'package:shop_app/screens/main_home/main_home.dart';
 import 'package:shop_app/screens/sign_in/sign_in_screen.dart';
 import 'package:shop_app/screens/splash/splash_screen.dart';
 
@@ -51,7 +52,7 @@ class AppController {
           if (_user?.onBoarded != null && _user?.onBoarded == true) {
             Navigator.pushNamed(
               context,
-              HomeScreen.routeName,
+              MainHomeScreen.routeName,
             );
           } else {
             Navigator.pushNamed(
