@@ -15,7 +15,7 @@ class ProductDescription extends StatelessWidget {
     this.pressOnSeeMore,
   }) : super(key: key);
 
-  final FoodProduct product;
+  final MenuItem product;
   final GestureTapCallback? pressOnSeeMore;
 
   @override

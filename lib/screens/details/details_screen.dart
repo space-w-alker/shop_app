@@ -67,9 +67,13 @@ class DetailsScreen extends StatelessWidget {
             expandedHeight: 300,
             flexibleSpace: ProductImages(product: agrs.product),
           ),
-          SliverToBoxAdapter(
+          SliverFillRemaining(
             child: Body(product: agrs.product),
-          )
+            hasScrollBody: false,
+          ),
+          //SliverToBoxAdapter(
+          //  child: Body(product: agrs.product),
+          //),
         ],
       ),
     );
@@ -77,7 +81,7 @@ class DetailsScreen extends StatelessWidget {
 }
 
 class ProductDetailsArguments {
-  final FoodProduct product;
+  final MenuItem product;
 
   ProductDetailsArguments({required this.product});
 }

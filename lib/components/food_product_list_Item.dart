@@ -4,7 +4,7 @@ import 'package:shop_app/models/FoodProduct.dart';
 class FoodProductListItem extends StatelessWidget {
   const FoodProductListItem({super.key, required this.product});
 
-  final FoodProduct product;
+  final MenuItem product;
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +14,7 @@ class FoodProductListItem extends StatelessWidget {
         aspectRatio: 1,
         child: Column(
           children: [
-            Expanded(child: Image.network(product.images[0])),
+            Expanded(child: Image.network(product.image[0])),
           ],
         ),
       ),

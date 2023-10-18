@@ -10,7 +10,7 @@ class ProductImages extends StatefulWidget {
     required this.product,
   }) : super(key: key);
 
-  final FoodProduct product;
+  final MenuItem product;
 
   @override
   _ProductImagesState createState() => _ProductImagesState();
@@ -28,7 +28,7 @@ class _ProductImagesState extends State<ProductImages> {
             child: Hero(
               tag: widget.product.id.toString(),
               child: Image.network(
-                widget.product.images[selectedImage],
+                widget.product.image[selectedImage],
                 fit: BoxFit.cover,
             ),
           ),
@@ -42,7 +42,7 @@ class _ProductImagesState extends State<ProductImages> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   ...List.generate(
-                    widget.product.images.length,
+                    widget.product.image.length,
                     (index) => buildSmallProductPreview(index),
                   ),
                 ],
@@ -73,7 +73,7 @@ class _ProductImagesState extends State<ProductImages> {
               color: kPrimaryColor.withOpacity(selectedImage == index ? 1 : 0)),
         ),
         child: Image.network(
-          widget.product.images[index],
+          widget.product.image[index],
           fit: BoxFit.cover,
         ),
       ),

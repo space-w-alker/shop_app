@@ -11,7 +11,7 @@ import 'product_description.dart';
 import 'top_rounded_container.dart';
 
 class Body extends StatelessWidget {
-  final FoodProduct product;
+  final MenuItem product;
 
   const Body({Key? key, required this.product}) : super(key: key);
 
@@ -28,33 +28,23 @@ class Body extends StatelessWidget {
                 product: product,
                 pressOnSeeMore: () {},
               ),
-              TopRoundedContainer(
-                color: Color(0xFFF6F7F9),
-                child: Column(
-                  children: [
-                    TopRoundedContainer(
-                      color: Colors.white,
-                      child: Padding(
-                          padding: EdgeInsets.only(
-                            left: SizeConfig.screenWidth * 0.15,
-                            right: SizeConfig.screenWidth * 0.15,
-                            bottom: getProportionateScreenWidth(40),
-                            top: getProportionateScreenWidth(15),
-                          ),
-                          child: DefaultButton(
-                            text: "Add To Cart",
-                            press: () async {
-                              if (app.user.value != null &&
-                                  product.id != null) {
-                                await FirestoreService.addToCart(
-                                  app.user.value!,
-                                  product.id!,
-                                );
-                              }
-                            },
-                          )),
-                    ),
-                  ],
+              Padding(
+                padding: EdgeInsets.only(
+                  left: SizeConfig.screenWidth * 0.15,
+                  right: SizeConfig.screenWidth * 0.15,
+                  bottom: (40),
+                  top: (15),
+                ),
+                child: DefaultButton(
+                  text: "Add To Cart",
+                  press: () async {
+                    if (app.user.value != null && product.id != null) {
+                      await FirestoreService.addToCart(
+                        app.user.value!,
+                        product.id!,
+                      );
+                    }
+                  },
                 ),
               ),
             ],

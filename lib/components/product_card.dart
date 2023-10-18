@@ -20,7 +20,7 @@ class ProductCard extends StatelessWidget {
   }) : super(key: key);
 
   final double width, aspectRetio;
-  final FoodProduct product;
+  final MenuItem product;
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +49,7 @@ class ProductCard extends StatelessWidget {
                   child: Hero(
                     tag: product.id.toString(),
                     child: Image.network(
-                      product.images![0],
+                      product.image![0],
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -65,7 +65,7 @@ class ProductCard extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    "\$${product.price}",
+                    "\$${product.offers?.price}",
                     style: TextStyle(
                       fontSize: getProportionateScreenWidth(18),
                       fontWeight: FontWeight.w600,

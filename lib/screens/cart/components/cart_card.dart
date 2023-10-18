@@ -11,7 +11,7 @@ class CartCard extends StatelessWidget {
   }) : super(key: key);
 
   final int numOfItems;
-  final FoodProduct product;
+  final MenuItem product;
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +28,7 @@ class CartCard extends StatelessWidget {
                 borderRadius: BorderRadius.circular(15),
               ),
               child: Image.network(
-                product.images[0],
+                product.image[0],
                 fit: BoxFit.cover,
               ),
             ),
@@ -46,7 +46,7 @@ class CartCard extends StatelessWidget {
             SizedBox(height: 10),
             Text.rich(
               TextSpan(
-                text: "\$${product.price}",
+                text: "\$${product.offers?.price}",
                 style: TextStyle(
                     fontWeight: FontWeight.w600, color: kPrimaryColor),
                 children: [

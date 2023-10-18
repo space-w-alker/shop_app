@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:get/state_manager.dart';
 import 'package:shop_app/app_controller.dart';
+import 'package:shop_app/firebase/data_seeders.dart';
 import 'package:shop_app/firebase_options.dart';
 import 'package:shop_app/routes.dart';
 import 'package:shop_app/screens/splash/splash_screen.dart';
@@ -13,6 +14,7 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  seedAll();
   runApp(MyApp());
 }
 

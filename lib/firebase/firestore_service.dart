@@ -59,17 +59,16 @@ class FirestoreService {
             event.docs.map((e) => e.data()["productId"] as String).toList());
   }
 
-  static Stream<FoodProduct> getOneProductSnap(String productId) {
+  static Stream<MenuItem> getOneProductSnap(String productId) {
     return FirebaseFirestore.instance
         .doc("products/$productId")
         .snapshots()
-        .map((event) => FoodProduct.fromJson(event.data() ?? {}));
+        .map((event) => MenuItem.fromMap(event.data() ?? {}));
   }
 
-  static Stream<List<FoodProduct>> getFoodProductSnap() {
+  static Stream<List<MenuItem>> getFoodProductSnap() {
     return FirebaseFirestore.instance.collection("products").snapshots().map(
-          (event) =>
-              event.docs.map((e) => FoodProduct.fromJson(e.data())).toList(),
+          (event) => event.docs.map((e) => MenuItem.fromMap(e.data())).toList(),
         );
   }
 
@@ -100,6 +99,17 @@ class FirestoreService {
     return FirebaseFirestore.instance
         .doc("users/${user.id}/cart/${productId}")
         .delete();
+  }
+
+  static Map<String, dynamic> addTimestamps(
+    Map<String, dynamic> data, {
+    bool newDoc = false,
+  }) {
+    data['updatedAt'] = FieldValue.serverTimestamp();
+    if (newDoc) {
+      data['createdAt'] = FieldValue.serverTimestamp();
+    }
+    return data;
   }
 
   static timeStampsToDateTime(Map<String, dynamic> json) {
