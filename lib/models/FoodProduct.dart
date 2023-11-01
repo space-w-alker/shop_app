@@ -16,13 +16,15 @@ class MenuItem {
   String? name;
   String? description;
   List<String> image;
-  int? rating;
+  double? rating;
   String? categoryId;
+  int? preparationTime;
   Offers? offers;
   Nutrition? nutrition;
   bool? deleted;
   DateTime? createdAt;
   DateTime? updatedAt;
+  String? uiTag;
 
   MenuItem({
     this.type,
@@ -32,11 +34,13 @@ class MenuItem {
     this.image = const [],
     this.rating,
     this.categoryId,
+    this.preparationTime,
     this.offers,
     this.nutrition,
     this.deleted,
     this.createdAt,
     this.updatedAt,
+    this.uiTag,
   });
 
   MenuItem copyWith({
@@ -45,13 +49,15 @@ class MenuItem {
     String? name,
     String? description,
     List<String>? image,
-    int? rating,
+    double? rating,
     String? categoryId,
+    int? preparationTime,
     Offers? offers,
     Nutrition? nutrition,
     bool? deleted,
     DateTime? createdAt,
     DateTime? updatedAt,
+    String? uiTag,
   }) =>
       MenuItem(
         type: type ?? this.type,
@@ -61,11 +67,13 @@ class MenuItem {
         image: image ?? this.image,
         rating: rating ?? this.rating,
         categoryId: categoryId ?? this.categoryId,
+        preparationTime: preparationTime ?? this.preparationTime,
         offers: offers ?? this.offers,
         nutrition: nutrition ?? this.nutrition,
         deleted: deleted ?? this.deleted,
         createdAt: createdAt ?? this.createdAt,
         updatedAt: updatedAt ?? this.updatedAt,
+        uiTag: uiTag ?? this.uiTag,
       );
 
   factory MenuItem.fromMap(Map<String, dynamic> json) => MenuItem(
@@ -78,6 +86,7 @@ class MenuItem {
             : List<String>.from(json["image"]!.map((x) => x)),
         rating: json["rating"],
         categoryId: json["categoryId"],
+        preparationTime: json["preparationTime"],
         offers: json["offers"] == null ? null : Offers.fromMap(json["offers"]),
         nutrition: json["nutrition"] == null
             ? null
@@ -99,6 +108,7 @@ class MenuItem {
         "image": image == null ? [] : List<dynamic>.from(image!.map((x) => x)),
         "rating": rating,
         "categoryId": categoryId,
+        "preparationTime": preparationTime,
         "offers": offers?.toMap(),
         "nutrition": nutrition?.toMap(),
         "deleted": deleted,
@@ -110,10 +120,10 @@ class MenuItem {
 class Nutrition {
   String? type;
   String? servingSize;
-  String? calories;
-  String? carbohydrateContent;
-  String? proteinContent;
-  String? fatContent;
+  int? calories;
+  int? carbohydrateContent;
+  int? proteinContent;
+  int? fatContent;
 
   Nutrition({
     this.type,
@@ -127,10 +137,10 @@ class Nutrition {
   Nutrition copyWith({
     String? type,
     String? servingSize,
-    String? calories,
-    String? carbohydrateContent,
-    String? proteinContent,
-    String? fatContent,
+    int? calories,
+    int? carbohydrateContent,
+    int? proteinContent,
+    int? fatContent,
   }) =>
       Nutrition(
         type: type ?? this.type,
@@ -184,7 +194,7 @@ class Offers {
 
   factory Offers.fromMap(Map<String, dynamic> json) => Offers(
         type: json["@type"],
-        price: json["price"],
+        price: json["price"]?.toDouble(),
         priceCurrency: json["priceCurrency"],
       );
 

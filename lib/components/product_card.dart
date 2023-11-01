@@ -5,7 +5,6 @@ import 'package:get/state_manager.dart';
 import 'package:shop_app/app_controller.dart';
 import 'package:shop_app/firebase/firestore_service.dart';
 import 'package:shop_app/models/FoodProduct.dart';
-import 'package:shop_app/models/Product.dart';
 import 'package:shop_app/screens/details/details_screen.dart';
 
 import '../constants.dart';
@@ -33,7 +32,8 @@ class ProductCard extends StatelessWidget {
           onTap: () => Navigator.pushNamed(
             context,
             DetailsScreen.routeName,
-            arguments: ProductDetailsArguments(product: product),
+            arguments: ProductDetailsArguments(
+                product: product.copyWith(uiTag: '${product.id}popular')),
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -47,7 +47,7 @@ class ProductCard extends StatelessWidget {
                     borderRadius: BorderRadius.circular(15),
                   ),
                   child: Hero(
-                    tag: product.id.toString(),
+                    tag: '${product.id}popular',
                     child: Image.network(
                       product.image![0],
                       fit: BoxFit.cover,
@@ -82,9 +82,9 @@ class ProductCard extends StatelessWidget {
                     child: Obx(() {
                       var isFavorite = app.favorites.contains(product.id);
                       return Container(
-                        padding: EdgeInsets.all(getProportionateScreenWidth(8)),
-                        height: getProportionateScreenWidth(28),
-                        width: getProportionateScreenWidth(28),
+                        padding: EdgeInsets.all((8)),
+                        height: (28),
+                        width: (28),
                         decoration: BoxDecoration(
                           color: isFavorite
                               ? kPrimaryColor.withOpacity(0.15)

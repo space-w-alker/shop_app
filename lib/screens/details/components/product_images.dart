@@ -26,7 +26,7 @@ class _ProductImagesState extends State<ProductImages> {
         children: [
           Positioned.fill(
             child: Hero(
-              tag: widget.product.id.toString(),
+              tag: widget.product.uiTag ?? widget.product.id ?? '',
               child: Image.network(
                 widget.product.image[selectedImage],
                 fit: BoxFit.cover,
